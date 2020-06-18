@@ -1,32 +1,32 @@
 <template>
     <a-layout id = "components-layout-demo-basic">
-        <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+        <a-layout-sider v-model="collapsed" :trigger="null" :style="{position:'fixed', height:'100vh'}" collapsible>
             <div class="logo"></div>
             <a-menu theme="dark" @click="menuClick" :default-selected-keys="['1']">
-                <a-menu-item key="1">
+                <a-menu-item :key="1">
                     <a-icon type="home"></a-icon>
                     <span>主页</span>
                 </a-menu-item>
-                <a-menu-item key="2">
+                <a-menu-item :key="2">
                     <a-icon type="pie-chart"></a-icon>
                     <span>我的问卷</span>
                 </a-menu-item>
-                <a-menu-item key="3">
+                <a-menu-item :key="3">
                     <a-icon type="file"></a-icon>
                     <span>新建问卷</span>
                 </a-menu-item>
-                <a-menu-item key="4">
+                <a-menu-item :key="4">
                     <a-icon type="hourglass"></a-icon>
                     <span>填写记录</span>
                 </a-menu-item>
-                <a-menu-item key="5">
+                <a-menu-item :key="5">
                     <a-icon type="user"></a-icon>
                     <span>个人中心</span>
                 </a-menu-item>
             </a-menu>
         </a-layout-sider>
-        <a-layout>
-<!--            HEADER-->
+        <a-layout :style="{marginLeft:'200px'}">
+            <!--            HEADER-->
             <a-layout-header style="background: #fff; padding: 0; text-align: center">
                 <a-row type="flex" justify="space-around">
                     <a-col :span="1">
@@ -40,14 +40,14 @@
                                 <a-avatar style="background-color:#87d068" icon="user" />
                             </a>
                             <a-menu slot="overlay">
-                                <a-menu-item key="0">
+                                <a-menu-item :key="0">
                                     个人主页
                                 </a-menu-item>
-                                <a-menu-item key="1">
+                                <a-menu-item :key="1">
                                     我的问卷
                                 </a-menu-item>
                                 <a-menu-divider />
-                                <a-menu-item key="3">
+                                <a-menu-item :key="3">
                                     退出登录
                                 </a-menu-item>
                             </a-menu>

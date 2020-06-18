@@ -1,9 +1,18 @@
 <template>
-    <div>
-        <a-card v-bind:title="num+'. '+title" style="width: 100%">
+    <div class="probRoot">
+        <a-card style="width: 100%" hoverable>
+            <span slot="title">
+                <span style="color: red" v-if="prob.required"> * </span>
+                {{num}}. {{prob.title}}
+            </span>
+            <span slot="extra">
+                <a-icon type="arrow-up" style="margin-right: 15px; font-size: 20px" @click="()=>moveUp(num-1)"></a-icon>
+                <a-icon type="arrow-down" style="margin-right: 15px; font-size: 20px" @click="()=>moveDown(num-1)"></a-icon>
+                <a-button type="danger" @click="deleteProb">删除</a-button>
+            </span>
             <a-form-item style="margin-left: 20px">
-                <a-radio-group v-if="type==='choice'">
-                    <span v-for="(el, index) in options" v-bind:key="el">
+                <a-radio-group v-if="prob.type==='choice'">
+                    <span v-for="(el, index) in prob.options" :key="index">
                         <a-radio :value="el">
                             {{String.fromCharCode(index+65)+'. '+el}}
                         </a-radio>
@@ -11,8 +20,8 @@
                     </span>
                 </a-radio-group>
 
-                <a-checkbox-group v-if="type==='mul-choice'">
-                    <span v-for="(el, index) in options" :key="el">
+                <a-checkbox-group v-if="prob.type==='mul-choice'">
+                    <span v-for="(el, index) in prob.options" :key="index">
                         <a-checkbox :value="el">
                             {{String.fromCharCode(index+65)+'. '+el}}
                         </a-checkbox>
@@ -20,14 +29,14 @@
                     </span>
                 </a-checkbox-group>
 
-                <a-checkbox-group v-if="type==='text-input'">
-                    <a-input v-if="inputType==='text'" :placeholder="placeHolder"
-                             v-decorator="['note',{rules:[{required:required, message: 'Required'}]}]"></a-input>
-                    <a-input-number v-if="inputType==='number'" :step="step" :placeholder="placeHolder"
-                                    v-decorator="['note',{rules:[{required:required, message: 'Required'}]}]"></a-input-number>
-                </a-checkbox-group>
+                <div v-if="prob.type==='text-input'">
+                    <a-input v-if="prob.inputType==='text'" :placeholder="prob.placeHolder"
+                             v-decorator="[null,{rules:[{required:prob.required, message: 'Required'}]}]"></a-input>
+                    <a-input-number v-if="prob.inputType==='number'" :step="prob.step" :placeholder="prob.placeHolder"
+                                    v-decorator="[null,{rules:[{required:prob.required, message: 'Required'}]}]"></a-input-number>
+                </div>
 
-                <a-rate v-if="type==='rate'" :default-value="0"> </a-rate>
+                <a-rate v-if="prob.type==='rate'" :default-value="0"> </a-rate>
             </a-form-item>
         </a-card>
     </div>
@@ -38,14 +47,13 @@
         name: "ProblemItem",
         props: [
             'num',
-            'step',
-            'title',
-            'type',
-            'options',
-            'required',
-            'inputType',
-            'placeHolder',
+            'prob',
+            'deleteProb',
+            'moveUp',
+            'moveDown',
         ],
+        methods: {
+        }
     }
 </script>
 
