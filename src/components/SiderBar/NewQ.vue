@@ -47,22 +47,34 @@
             </a-list-item>
         </a-list>
     </div>
+    <div v-else-if="QType>0">
+        <CreateQ :change-page="changePage"></CreateQ>
+    </div>
     <div v-else>
-        <CreateQ></CreateQ>
+        <GoodAdd :code="code"></GoodAdd>
     </div>
 </template>
 
 <script>
     import CreateQ from "@/components/MainFunctions/CreateQ";
+    import GoodAdd from "@/components/MainFunctions/GoodAdd";
     export default {
         name: "NewQ",
         data(){
             return {
-                QType: 0
+                QType: 0,
+                code: 0,
             }
         },
         components:{
+            GoodAdd,
             CreateQ,
+        },
+        methods: {
+            changePage: function (code) {
+                this.code=code;
+                this.QType=-1;
+            }
         }
     }
 </script>

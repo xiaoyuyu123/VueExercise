@@ -2,7 +2,7 @@
     <a-layout id = "components-layout-demo-basic">
         <a-layout-sider v-model="collapsed" :trigger="null" :style="{position:'fixed', height:'100vh'}" collapsible>
             <div class="logo"></div>
-            <a-menu theme="dark" @click="menuClick" :default-selected-keys="['1']">
+            <a-menu theme="dark" @click="menuClick" :selectable="false">
                 <a-menu-item :key="1">
                     <a-icon type="home"></a-icon>
                     <span>主页</span>
@@ -56,18 +56,7 @@
                 </a-row>
             </a-layout-header>
             <a-layout-content style="margin: 32px">
-                <div>
-                    <a-breadcrumb>
-                        <a-breadcrumb-item v-for="item in list" :key="item.path">
-                            {{ item.path }}
-                        </a-breadcrumb-item>
-                    </a-breadcrumb>
-                </div>
-                <a-divider/>
-                <!--                THIS PART IS DYNAMIC LOADED-->
-                <keep-alive>
-                    <component :is="mainGrid"></component>
-                </keep-alive>
+                <router-view></router-view>
             </a-layout-content>
             <a-layout-footer style="text-align: center">BSFinalProj @2020 Created By Gster, ZJU</a-layout-footer>
         </a-layout>
@@ -78,12 +67,6 @@
     import Vue from 'vue';
     import Antd from 'ant-design-vue';
     import 'ant-design-vue/dist/antd.css';
-    import HistoryQ from "@/components/SiderBar/HistoryQ";
-    import MyQ from "@/components/SiderBar/MyQ";
-    import NewQ from "@/components/SiderBar/NewQ";
-    import Profile from "@/components/SiderBar/Profile";
-
-    import HelloWorld from "@/components/HelloWorld";
 
     Vue.config.productionTip=false;
     Vue.use(Antd);
@@ -93,56 +76,28 @@
         data() {
             return {
                 collapsed: false,
-                mainGrid: "HelloWorld",
-                list: [
-                    {path:"主页"},
-                ]
             };
         },
         methods:{
             menuClick: function (obj){
                 if(obj.key === 1){
-                    this.mainGrid="HelloWorld";
-                    this.list=[
-                        {path:"主页"},
-                    ];
+                    this.$router.push({name:'Home'});
                 }
                 if(obj.key === 2){
-                    this.mainGrid="MyQ";
-                    this.list=[
-                        {path:"主页"},
-                        {path:"我的问卷"}
-                    ];
+                    this.$router.push({name:'MyQ'});
                 }
                 if(obj.key === 3){
-                    this.mainGrid="NewQ";
-                    this.list=[
-                        {path:"主页"},
-                        {path:"新建问卷"},
-                    ];
+                    this.$router.push({name:'NewQ'});
                 }
                 if(obj.key === 4){
-                    this.mainGrid="HistoryQ";
-                    this.list=[
-                        {path:"主页"},
-                        {path:"历史问卷"},
-                    ];
+                    this.$router.push({name:'HistoryQ'});
                 }
                 if(obj.key === 5){
-                    this.mainGrid="Profile";
-                    this.list=[
-                        {path:"主页"},
-                        {path:"个人信息"},
-                    ];
+                    this.$router.push({name:'Profile'});
                 }
             }
         },
         components: {
-            HelloWorld,
-            HistoryQ,
-            MyQ,
-            NewQ,
-            Profile,
         }
     }
 </script>

@@ -6,10 +6,11 @@
                    <a-icon type="play-circle"></a-icon>
                    已发布
                </span>
-                <div v-if="pubCards!=null && pubCards.length!=0">
+                <div v-if="pubCards!=null && pubCards.length!==0">
                     <a-list :grid="{ gutter: 16, column: 2 }" :data-source="pubCards">
-                        <a-list-item slot="renderItem" slot-scope="item">
-                            <QCard v-bind:title="item.title" v-bind:due-time="item.dueTime" v-bind:publish-time="item.publishTime"/>
+                        <a-list-item slot="renderItem" slot-scope="item, index">
+                            <QCard :title="item.title" :dueTime="item.dueTime" :publishTime="item.publishTime"
+                                :dueDate="item.dueDate" :publishDate="item.publishDate" :refresh="refresh" :code="item.code"/>
                         </a-list-item>
                     </a-list>
                 </div>
@@ -20,10 +21,11 @@
                    <a-icon type="pause-circle"></a-icon>
                    已暂停
                </span>
-                <div v-if="pauseCards!=null && pauseCards.length!=0">
+                <div v-if="pauseCards!=null && pauseCards.length!==0">
                     <a-list :grid="{ gutter: 16, column: 2 }" :data-source="pauseCards">
-                        <a-list-item slot="renderItem" slot-scope="item">
-                            <QCard v-bind:title="item.title" v-bind:due-time="item.dueTime" v-bind:publish-time="item.publishTime"/>
+                        <a-list-item slot="renderItem" slot-scope="item, index">
+                            <QCard :title="item.title" :dueTime="item.dueTime" :publishTime="item.publishTime"
+                                   :dueDate="item.dueDate" :publishDate="item.publishDate" :refresh="refresh" :code="item.code"/>
                         </a-list-item>
                     </a-list>
                 </div>
@@ -34,10 +36,11 @@
                    <a-icon type="check"></a-icon>
                    已完成
                </span>
-                <div v-if="finishCards!=null && finishCards.length!=0">
+                <div v-if="finishCards!=null && finishCards.length!==0">
                     <a-list :grid="{ gutter: 16, column: 2 }" :data-source="finishCards">
-                        <a-list-item slot="renderItem" slot-scope="item">
-                            <QCard v-bind:title="item.title" v-bind:due-time="item.dueTime" v-bind:publish-time="item.publishTime"/>
+                        <a-list-item slot="renderItem" slot-scope="item, index">
+                            <QCard :title="item.title" :dueTime="item.dueTime" :publishTime="item.publishTime"
+                                   :dueDate="item.dueDate" :publishDate="item.publishDate" :refresh="refresh" :code="item.code"/>
                         </a-list-item>
                     </a-list>
                 </div>
@@ -49,29 +52,31 @@
 
 <script>
     import QCard from "@/components/BasicItems/QCard";
-    var temp=new Date();
+    import {message} from "ant-design-vue"
     export default {
         name: "MyQ",
         data() {
             return {
-                pubCards:[
-                    {title:"问卷1",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷2",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷3",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷4",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷5",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷6",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷7",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷8",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷9",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                    {title:"问卷10",dueTime:temp.toLocaleString(),publishTime:temp.toLocaleString()},
-                ],
+                pubCards:[],
                 pauseCards:[],
                 finishCards:[],
             };
         },
         components: {
             QCard
+        },
+        methods: {
+            refresh: function () {
+                this.$axios.get('/loadForms').then((response) => {
+                    this.pubCards=response.data;
+                }).catch((err)=>{
+                    console.log(err);
+                });
+                message.success("列表已刷新");
+            }
+        },
+        mounted(){
+            this.refresh();
         }
     }
 </script>
